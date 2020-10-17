@@ -56,18 +56,28 @@ architecture behavioral of al_unit is
         );
     end component;
     
+    -- The negate (2's complement) unit
+    component negate
+        port (
+            A : in std_logic_vector(7 downto 0);
+            F : out std_logic_vector(7 downto 0)
+        );
+    end component;
+    
     -- The signals
     signal add_out : std_logic_vector(7 downto 0);
     signal and_out : std_logic_vector(7 downto 0);
     signal or_out : std_logic_vector(7 downto 0);
     signal not_out : std_logic_vector(7 downto 0);
+    signal negate_out : std_logic_vector(7 downto 0);
 begin
     add : adder port map(vec1 => A, vec2 => B, out_vec => add_out, co => open);
     and8_0 : and8 port map(A => A, B => B, F => and_out);
     or8_0 : or8 port map(A => A, B => B, F => or_out);
     not8_0 : not8 port map(A => A, F => not_out);
+    neg : negate port map(A => A, F => negate_out);
     
-    process (add_out, and_out, or_out, not_out, OP) is
+    process (add_out, and_out, or_out, not_out, negate_out, OP) is
     begin
         case OP is
             when "0000" => F <= add_out;        -- Add
@@ -78,7 +88,7 @@ begin
             when "0101" => F <= or_out;         -- Or
             when "0110" => F <= A - B;          -- Xor
             when "0111" => F <= not_out;        -- Not
-            when "1000" => F <= A - B;          -- 2's complement
+            when "1000" => F <= negate_out;     -- 2's complement
             when "1001" => F <= A - B;          -- Increment
             when "1010" => F <= A - B;          -- Decrement
             when others => F <= (others => 'X');
