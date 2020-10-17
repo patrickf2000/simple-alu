@@ -88,6 +88,11 @@ architecture behavioral of al_unit is
     signal xor_out : std_logic_vector(7 downto 0);
     signal not_out : std_logic_vector(7 downto 0);
     signal negate_out : std_logic_vector(7 downto 0);
+    signal inc_out : std_logic_vector(7 downto 0);
+    signal dec_out : std_logic_vector(7 downto 0);
+    
+    -- Constants
+    constant one : std_logic_vector(7 downto 0) := "00000001";
 begin
     add : adder port map(vec1 => A, vec2 => B, out_vec => add_out, co => open);
     sub : subtractor port map(A => A, B => B, F => subtract_out);
@@ -96,10 +101,13 @@ begin
     xor8_0 : xor8 port map(A => A, B => B, F => xor_out);
     not8_0 : not8 port map(A => A, F => not_out);
     neg : negate port map(A => A, F => negate_out);
+    inc : adder port map(vec1 => A, vec2 => one, out_vec => inc_out, co => open);
+    dec : subtractor port map(A => A, B => one, F => dec_out);
     
     process (add_out, subtract_out,
         and_out, or_out, xor_out, not_out, 
-        negate_out, 
+        negate_out,
+        inc_out, dec_out,
         OP) is
     begin
         case OP is
@@ -112,8 +120,8 @@ begin
             when "0110" => F <= xor_out;        -- Xor
             when "0111" => F <= not_out;        -- Not
             when "1000" => F <= negate_out;     -- 2's complement
-            when "1001" => F <= "00000000";     -- Increment
-            when "1010" => F <= "00000000";     -- Decrement
+            when "1001" => F <= inc_out;        -- Increment
+            when "1010" => F <= dec_out;        -- Decrement
             when others => F <= (others => 'X');
         end case;
     end process;
