@@ -4,7 +4,8 @@ FILES		= src/adder.vhdl \
                 src/and8.vhdl \
                 src/negate.vhdl \
                 src/not8.vhdl \
-                src/or8.vhdl
+                src/or8.vhdl \
+                src/xor8.vhdl
 SIMDIR		= sim
 SIMFILES	= test/alu_tb.vhdl
 
