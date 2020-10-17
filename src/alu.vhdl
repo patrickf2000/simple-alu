@@ -40,14 +40,24 @@ architecture behavioral of al_unit is
         );
     end component;
     
+    -- The 8-bit OR
+    component or8
+        port (
+            A, B : in std_logic_vector(7 downto 0);
+            F : out std_logic_vector(7 downto 0)
+        );
+    end component;
+    
     -- The signals
     signal add_out : std_logic_vector(7 downto 0);
     signal and_out : std_logic_vector(7 downto 0);
+    signal or_out : std_logic_vector(7 downto 0);
 begin
     add : adder port map(vec1 => A, vec2 => B, out_vec => add_out, co => open);
     and8_0 : and8 port map(A => A, B => B, F => and_out);
+    or8_0 : or8 port map(A => A, B => B, F => or_out);
     
-    process (add_out, and_out, OP) is
+    process (add_out, and_out, or_out, OP) is
     begin
         case OP is
             when "0000" => F <= add_out;        -- Add
@@ -55,7 +65,7 @@ begin
             when "0010" => F <= A - B;          -- Left-shift
             when "0011" => F <= A - B;          -- Right-shift
             when "0100" => F <= and_out;        -- And
-            when "0101" => F <= A - B;          -- Or
+            when "0101" => F <= or_out;         -- Or
             when "0110" => F <= A - B;          -- Xor
             when "0111" => F <= A - B;          -- Not
             when "1000" => F <= A - B;          -- 2's complement

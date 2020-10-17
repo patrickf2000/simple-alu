@@ -1,7 +1,8 @@
 # The files
 FILES		= src/adder.vhdl \
                 src/alu.vhdl \
-                src/and8.vhdl
+                src/and8.vhdl \
+                src/or8.vhdl
 SIMDIR		= sim
 SIMFILES	= test/alu_tb.vhdl
 
