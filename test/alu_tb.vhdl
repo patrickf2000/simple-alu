@@ -15,7 +15,7 @@ architecture behavior of alu_tb is
     component AL_UNIT
         port (
             A, B : in std_logic_vector(bus_size - 1 downto 0);
-            OP : in std_logic_vector(2 downto 0);
+            OP : in std_logic_vector(3 downto 0);
             F : out std_logic_vector(bus_size - 1 downto 0)
         );
     end component;
@@ -23,7 +23,7 @@ architecture behavior of alu_tb is
     -- Bind to the component
     for ALU_0: AL_UNIT use entity work.AL_UNIT;
     signal A, B, F : std_logic_vector(7 downto 0);
-    signal OP : std_logic_vector(2 downto 0);
+    signal OP : std_logic_vector(3 downto 0);
 begin
     -- Initialize component
     ALU_0: AL_UNIT port map(A => A, B => B, OP => OP, F => F);
@@ -32,14 +32,20 @@ begin
         type pattern_type is record
             A, B : integer;
             F : integer;
-            OP : std_logic_vector(2 downto 0);
+            OP : std_logic_vector(3 downto 0);
         end record;
         
         -- Put your patterns here
         type pattern_array is array (natural range <>) of pattern_type;
         constant patterns: pattern_array := (
-            ( 4, 5, 9, "000" ),
-            ( 8, 3, 11, "000" )
+            -- Add tests
+            ( 4, 5, 9, "0000" ),
+            ( 8, 3, 11, "0000" ),
+            -- AND tests
+            ( 1, 1, 1, "0100" ),
+            ( 0, 1, 0, "0100" ),
+            ( 7, 4, 4, "0100" ),
+            ( 100, 43, 32, "0100" )
             );
             
         variable l : line;
