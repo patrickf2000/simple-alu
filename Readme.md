@@ -1,12 +1,23 @@
 
-## VHDL Project Base
+## simple-alu
 
-This is a template for VHDL projects. Hopefully it will be useful to others besides myself. It contains a AND, OR, and NOT gates as circuits, and a few example tests. I use GHDL as my compiler. See the makefile for more information; you can extend it as needed.
+This is my first real VHDL design; as its highly original name suggests, its a simple arithmetic logic unit (a core component in all CPU's). It has several functions and testbench to go with it (only two functions are not quite finished).
 
-### Credits
+### Technical Details
 
-Although I did a lot of modifications to adapt it to my purposes, this is not completely my own work. Here are the credits.
+The ALU currently works on 8-bit integers. Except for the bitwise operations, the numbers are treated as signed integers. The ALU takes a 4-bit opcode and two 8-bit integers. Each operation is performed on a single clock cycle. The ALU can perform the following operations:
 
-The core infastructure and the idea came from here: https://github.com/pvarin/SampleVHDL.
+* Addition
+* Subtraction
+* And/Or/Xor of two numbers
+* Not (or bit inversion)
+* 2's complement
+* Increment
+* Decrement
 
-The automated example for the AND gate is from the GHDL docs.
+I know that the IEEE library provides arithmetic operations on logic vectors, but I implemented the entire thing myself because I wanted to understand how everything worked internally down to the gate level. I also wanted to be able to look at the design and have a rough vision of how it would translate to an actual circuit.
+
+### Future Work
+
+The most immediate task is to add the shift operations, which I hope to do soon. I'm also thinking about expanding it to include some memory elements and maybe additional functions, but I haven't decided just yet.
+
