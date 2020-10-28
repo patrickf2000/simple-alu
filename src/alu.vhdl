@@ -40,6 +40,14 @@ architecture behavioral of al_unit is
         );
     end component;
     
+    -- The right-shifter
+    component rshift
+        port (
+            A, B : in std_logic_vector(7 downto 0);
+            F : out std_logic_vector(7 downto 0)
+        );
+    end component;
+    
     -- The 8-bit AND
     component and8
         port (
@@ -83,6 +91,7 @@ architecture behavioral of al_unit is
     -- The signals
     signal add_out : std_logic_vector(7 downto 0);
     signal subtract_out : std_logic_vector(7 downto 0);
+    signal rshift_out : std_logic_vector(7 downto 0);
     signal and_out : std_logic_vector(7 downto 0);
     signal or_out : std_logic_vector(7 downto 0);
     signal xor_out : std_logic_vector(7 downto 0);
@@ -96,6 +105,7 @@ architecture behavioral of al_unit is
 begin
     add : adder port map(vec1 => A, vec2 => B, out_vec => add_out, co => open);
     sub : subtractor port map(A => A, B => B, F => subtract_out);
+    rsh : rshift port map(A => A, B => B, F => rshift_out);
     and8_0 : and8 port map(A => A, B => B, F => and_out);
     or8_0 : or8 port map(A => A, B => B, F => or_out);
     xor8_0 : xor8 port map(A => A, B => B, F => xor_out);
@@ -105,6 +115,7 @@ begin
     dec : subtractor port map(A => A, B => one, F => dec_out);
     
     process (add_out, subtract_out,
+        rshift_out,
         and_out, or_out, xor_out, not_out, 
         negate_out,
         inc_out, dec_out,
@@ -114,7 +125,7 @@ begin
             when "0000" => F <= add_out;        -- Add
             when "0001" => F <= subtract_out;   -- Subtract
             when "0010" => F <= "00000000";     -- Left-shift
-            when "0011" => F <= "00000000";     -- Right-shift
+            when "0011" => F <= rshift_out;     -- Right-shift
             when "0100" => F <= and_out;        -- And
             when "0101" => F <= or_out;         -- Or
             when "0110" => F <= xor_out;        -- Xor

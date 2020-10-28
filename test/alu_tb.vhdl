@@ -34,7 +34,20 @@ begin
     -- The process
     process
         variable num1_slv, num2_slv : std_logic_vector(BUS_SIZE - 1 downto 0);
+        variable l : line;
     begin
+    
+        -- Debug code
+        A <= "00000010";
+        B <= "00000001";
+        OP <= "0010";
+        wait for 20 ns;
+        
+        write(l, String'("Result: "));
+        write(l, to_bitvector(F));
+        writeline(output, l);
+        
+        wait for 100 ns;
     
         -- Test the two-operand functions
         for i in tb_lower to tb_upper loop
@@ -107,6 +120,25 @@ begin
             wait for 20 ns;
             
             assert conv_integer(F) = (i - 1) report "Test failed-> DEC" severity error;
+        end loop;
+        
+        wait for 100 ns;
+        
+        -- Test the shifters
+        for i in tb_lower to tb_upper loop
+            for j in 0 to 7 loop
+                num1_slv := std_logic_vector(to_signed(i, BUS_SIZE));
+                num2_slv := std_logic_vector(to_signed(j, BUS_SIZE));
+                
+                A <= num1_slv;
+                B <= num2_slv;
+                
+                -- Right shift
+                OP <= "0011";
+                wait for 20 ns;
+                
+                assert conv_integer(F) = shift_left(to_signed(i, BUS_SIZE), j) report "Test failed- RShift" severity error;
+            end loop;
         end loop;
         
         wait for 100 ns;

@@ -5,6 +5,7 @@ FILES		= src/adder.vhdl \
                 src/negate.vhdl \
                 src/not8.vhdl \
                 src/or8.vhdl \
+                src/rshift.vhdl \
                 src/subtractor.vhdl \
                 src/xor8.vhdl
 SIMDIR		= sim
