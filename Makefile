@@ -2,6 +2,7 @@
 FILES		= src/adder.vhdl \
                 src/alu.vhdl \
                 src/and8.vhdl \
+                src/lshift.vhdl \
                 src/negate.vhdl \
                 src/not8.vhdl \
                 src/or8.vhdl \
