@@ -1,3 +1,7 @@
+
+-- This provides an excellent picture of how a barrel shifter works
+-- https://stackoverflow.com/questions/10932578/how-are-shifts-implemented-on-the-hardware-level
+
 library ieee;
 use ieee.std_logic_1164.all;
 

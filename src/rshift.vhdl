@@ -1,3 +1,10 @@
+
+-- This provides an excellent picture of how a barrel shifter works
+-- https://stackoverflow.com/questions/10932578/how-are-shifts-implemented-on-the-hardware-level
+
+-- Note that in the picture, its a left-shift. To implement right shift, you simply reverse it
+-- (Notice how I have the '0's versus in the right shift?)
+
 library ieee;
 use ieee.std_logic_1164.all;
 
